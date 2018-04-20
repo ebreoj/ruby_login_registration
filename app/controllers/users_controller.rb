@@ -1,9 +1,12 @@
 class UsersController < ApplicationController
+    def index
+        session[:user_id] = nil
+    end
     def register
         user = User.new(user_params)
         if user.save
             session[:user_id] = user.id
-            redirect_to result_path
+            redirect_to groups_path
         else
             flash[:errors] = user.errors.full_messages
             redirect_to root_path
@@ -12,7 +15,7 @@ class UsersController < ApplicationController
     def login
         if User.find_by_email(params[:user][:email]).try(:authenticate, params[:user][:password])
             session[:user_id] = User.find_by(email: params[:user][:email]).id
-            redirect_to result_path
+            redirect_to groups_path
         else
             flash[:errors] = ["Invalid Combination"]
             redirect_to root_path

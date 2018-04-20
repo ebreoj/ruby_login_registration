@@ -2,8 +2,13 @@ Rails.application.routes.draw do
   root 'users#index'
   post '/register' => 'users#register'
   post '/login' => 'users#login'
-  get '/result' => 'users#result'
+  get '/groups' => 'groups#groups'
   delete '/logout' => 'users#logout'
+  post '/groups/create' => 'groups#create'
+  delete '/groups/:group_id/destroy' => 'groups#destroy'
+  get '/groups/:group_id' => 'groups#show'
+  post '/groups/:group_id/join' => 'groups#join'
+  post '/groups/:group_id/unjoin' => 'groups#unjoin'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

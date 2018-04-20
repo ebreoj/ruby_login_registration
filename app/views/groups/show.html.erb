@@ -1,0 +1,27 @@
+<style>
+    p {
+        margin-left: 30px;
+    }
+</style>
+<a href="/groups" style="float: right;">Dashboard</a>
+<h2>
+    <%= @group.name %>
+    <% if @group.users_joined_ids.include? current_user.id %>
+        <a href="/groups/<%= @group.id %>/unjoin" data-method="post"><button>Leave Group</button></a>
+    <% else %>
+        <a href="/groups/<%= @group.id %>/join" data-method="post"><button>Join Group</button></a>
+    <% end %>
+</h2>
+<p><%= @group.description %></p>
+<h3>
+    Created By:
+    <% if current_user.id == @group.user.id %>
+        YOU
+    <% else %>
+        <%= @group.user.first_name %> <%= @group.user.last_name %>
+    <% end %>
+</h3>
+<h3>Members:</h3>
+<% @group.users_joined.order("created_at DESC").each do |user| %>
+    <p><%= user.first_name %> <%= user.last_name %></p>
+<% end %>

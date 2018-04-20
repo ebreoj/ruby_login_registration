@@ -1,0 +1,43 @@
+<style>
+    .groups, .add_group {
+        display: inline-block;
+        vertical-align: top;
+    }
+    .add_group {
+        border: 2px solid black;
+        margin-left: 50px;
+        padding: 10px 10px 20px 10px;
+    }
+    .group_info {
+        margin-left: 30px;
+    }
+</style>
+<h2>Hi <%= current_user.first_name %> <%= current_user.last_name %></h2>
+<div class="groups">
+<h3>Here are the organizations you may join:</h3>
+<% @groups.each do |group| %>
+    <p>
+        <% if current_user.id == group.user.id %>
+            <a href="groups/<%= group.id %>/destroy" data-method="delete" style="color: black; text-decoration: none; font-weight: bold;">X</a>
+        <% end %>
+        <a href="groups/<%= group.id %>"><%= group.name %></a>
+    </p>
+    <p class="group_info">Members: <%= group.joins.count %></p>
+    <p class="group_info"><%= group.description %></p>
+<% end %>
+</div>
+<div class="add_group">
+    <form action="/groups/create" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <h3>Create a new organization:</h3>
+        <p>
+            <label for="name">Org Name: </label>
+            <input type="text" name="group[name]" id="name">
+        </p>
+        <p>
+            <label for="description">Description: </label>
+            <textarea name="group[description]" id="description"></textarea>
+        </p>
+        <input type="submit" value="Create">
+    </form>
+</div>
